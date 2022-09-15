@@ -9,23 +9,35 @@
   * 레포지터리 : 패키지 파일을 모아서 배포하는 사이트
 + 패키지 단위로 소프트웨어를 설치, 삭제
 + 패키지 관리 시스템 CentOS-RPM, Debian-APT
-  * apt (Advanced Packaging Tool) - 단순, 설치 삭제 > 보수, 유지(업데이트 등)이 어려움
-  * dpkg : 데비안 패키지 관리 시스템의 기초가 되는 소프트웨어, apt보다 낮은 수준에서 수행
-   + dpkg -l : 패키지 목록 보기
-     - dpkg -L [패키지명] : 특정 패키지에 설치된 모든 파일 표시
-     - dpkg -s [패키지명] : 주어진 패키지의 상태를 봄
-  * aptitude - apt와 atp-cache를 통합하여 설치, 삭제 뿐만 아니라 쓰지 않는 패키지 삭제, 업데이트 자동화 등 패키지 관리가 자동화된 매니저
- 
+
+dpkg| apt<br>(Advanced Packaging Tool)| aptitude
+---|---|---
+. |`CLI`만 제공<br> 여러가지 APT(cache, mark, get)에서 자주 사용한 옵션만 추출하여 사용하기 편하게 만든 것 | `GUI` `CLI` 모두 제공<br> apt-get을 모두 대체 가능
+데비안 패키지 관리 시스템의 기초가 되는 소프트웨어, apt보다 낮은 수준에서 수행<br>* dpkg -l : 패키지 목록 보기<br>+ dpkg -L [패키지명] : 특정 패키지에 설치된 모든 파일 표시<br>+ dpkg -s [패키지명] : 주어진 패키지의 상태를 봄 |단순, 설치 삭제 > 보수, 유지(업데이트 등)이 어려움 | apt와 atp-cache를 통합하여 설치, 삭제 뿐만 아니라 쓰지 않는 패키지 삭제, 업데이트 자동화 등 패키지 관리가 자동화된 매니저
+ + AppArmor
+  * 시스템 관리자가 프로그램 프로파일별로 프로그램의 역량을 제한할 수 있게 해주는 리눅스 커널 보안 모듈
+    - 네트워크 엑세스 권한
+    - raw 소켓 액세스 권한
+    - 파일의 읽기, 쓰기, 실행 권한 
 ### 2. virtual macine
 + virtual macine
  * 물리적 하드웨어가 없어도 논리적으로 컴퓨터를 구성하여 다양한 운영체제를 한개의 하드웨어로 사용이 가능하게 함.
- * 물리적 하드웨어가 없어 구성 후 배포가 쉬운 장점
+ * 물리적 하드웨어가 없어 비용 절감, 속도, 이전 속도 등에 장점을 가진다.
+ * Hypervisor(born2beroot 과제로 치면 VirtualBox)가 설치되는 물리 하드웨어를 Host, Hypervisor에서 리소스를 사용하는 VM들을 Guest라고 함.
 + Linux 설치
  * 다양한 배포판이 있는데 그 중 Debian을 사용
  * Debian 배포판 : Debian 팀에 의한 오픈소스. CentOS에 비해 설치 및 구성이 쉽고 업데이트 및 보수유지가 빠르다는 장점이 있음.
  * 레드햇 계열 CentOS : 기업이 만들어서 배포, 유지보수가 느리고 업데이트가 거의 되지 않지만 보안에서 비교적 안전하다는 장점.
+
+### 3. LVM(Logical Volume Management)
+ + logical volume을 효율적이고 유연하게 관리하기 위한 커널의 한 부분이자 프로그램
+ + why logical volume?
+   * 리눅스 안에서는 하나의 디스크를 여러 파티션으로 분할해 파일 시스템을 사용해 특정 디렉토리와 연결시켜 사용함.
+   * 이 때 하드디스크를 파티션으로 나눌 경우 물리적인 개념이 강해서 고정적인 용량으로 사용하게 됨. 따라서 공간 효율성이 낮음
+   * *LVM은 파티션을 논리적인 개념인 logical volume으로 나눠 더 유동적으로 디스크의 용량을 관리할 수 있음*
+   * LVM이 없다면 리눅스에서 디스크를 사용하는 방법은 디스크->파티션->파일시스템이지만 LVM을 적용하면 볼륨단위로 저장장치를 관리할 수 있고 물리 디스크를 볼륨그룹으로 묶어 이를 다시 논리그룹으로 나누어 파일 시스템을 만든다.(디스크->파티션->볼륨그룹->논리그룹->파일시스템)
 ----
-###  3. Linux Debian 배포판 구현
+###  4. Linux Debian 배포판 구현
 
 #### 1) sudo 설치 및 설정
 + sudo : SuperUser Do : 유닉스 및 유닉스 계열 운영체제에서 슈퍼유저로서 프로그램을 구동할 수 있게 함.
@@ -48,6 +60,7 @@
     - requiretty : TTY 모드에서만 실행될 수 있도록 설정
     - > TTY (teletyperwriter) : 리눅스 디바이스 드라이브 중 콘솔이나 터미널을 의미. 현 프로젝트에서는 가상 환경의 터미널이라고 할 수 있음.
    * vi 사용법 - 입력 -> `ctrl + x` -> y -> filename에서 tmp를 지우고 저장
+   * sudo 로그 확인 : `sudo ls /var/log/sudo/`
 
 #### 2) group 설정
  + `groupadd` : group을 추가함
@@ -55,6 +68,7 @@
    * `usermod -l <새로운계정><기존계정>
      - 로그인 아이디 변경
      - 홈, 디렉토리명도 함께 변경해주기 위하여 -d(사용자의 홈 디렉토리 변경), -m(홈 디렉토리 변경 시 기존에 사용하던 파일 및 디렉토리도 함께 변경) 옵션 함께 사용
+   * *`hostnamectl set-hostname <HOST_NAME>`*
    * `usermode -aG <그룹명><사용자명>`
       - 해당 그룹에 유저를 추가
       - 그룹이 여러 개인 경우 공백없이 콤마(,)로 구분하면 됨
@@ -62,5 +76,41 @@
    * `usermode -g <그룹명><사용자명>`
       - 그룹이 primary group이 되게 함
    * 그룹 및 유저 추가 및 삭제 `adduser <사용자명>` deluser <사용자명>` `addgroup <그룹명>` `delgroup <그룹명>`
+      - adduser와 useradd의 차이
+      - useradd 는 low lever utility로 계정 생성시에 필요한 모든 설정을 명시해야 하며 홈 디렉토리를 자동으로 생성하지 않는다.
+      - adduser 는 configuration information in /etc/adduser.conf에 의해서 계정을 생성하고 홈디렉토리를 자동으로 생성한다.
    * 유저가 속한 그룹 확인  : `groups <사용자명>`
+   * 그룹에 속한 사용자 확인 : `getent group <그룹명>`
    * 그룹 리스트 확인 `cat /etc/group`
+
+#### 3) user 설정
+ + `libpam-pwquality` : 패스워드 설정 강화를 위한 pam 모듈
+   * *pam(Pluggable Authentication Modules)* : 리눅스 시스템에서 사용하는 인증 모듈로써 응용 프로그램에 대한 사용자 권한을 제어함
+   * pam 모듈을 사용하면 직접 인증로직을 구현하지 않아도 되며 passwd파일 등 시스템 파일을 직접 열람하지 않아 안전하게 시스템을 운영할 수 있다.
+ + `vi /etc/pam.d/common-password`
+ + `vi /etc/login.defs`
+   * 비밀번호 정책 모듈 파일 : 파일을 수정하여 정책을 수정할 수 있음.
+   * ```c
+     $ sudo vi /etc/login.defs
+ 
+     PASS_MAX_DAYS 30 // 30일 후 만료
+     PASS_MIN_DAYS 2  // 최소 사용기간 2일
+     PASS_WARN_AGE 7  // 7일전에 경고 보내기
+     PASS_MIN_LEN 10  // 최소 10글자 이상
+
+     $ sudo apt install libpam-pwquality // 패키지 설치
+     $ sudo vi /etc/pam.d/common-password // 이 파일에서 비밀번호 정책 수정
+
+     /// common-passwrod 파일 수정
+     retry=3 // 암호 재입력은 최대 3회까지
+     minlen=10 // 최소 길이 10
+     difok=7 // 기존 패스워드와 달라야 하는 문자 수 7
+     maxrepeat=3 // 동일한 문자를 반복 가능한 최대 횟수 3
+     ucredit=-1 // 대문자 한개 이상 포함
+     lcredit=-1 // 소문자 한개 이상 포함
+     dcredit=-1 // digit 한개 이상 포함
+     reject_username // username이 그대로 혹은 reversed 된 문자는 패스워드로 사용 불가
+     enforce_for_root // root 계정도 위의 정책들 적용
+      ```
+#### 4) partition 확인
+  + `lsblk` partition 정보를 확인할 수 있다.
