@@ -36,6 +36,7 @@ dpkg| apt<br>(Advanced Packaging Tool)| aptitude
    * 이 때 하드디스크를 파티션으로 나눌 경우 물리적인 개념이 강해서 고정적인 용량으로 사용하게 됨. 따라서 공간 효율성이 낮음
    * *LVM은 파티션을 논리적인 개념인 logical volume으로 나눠 더 유동적으로 디스크의 용량을 관리할 수 있음*
    * LVM이 없다면 리눅스에서 디스크를 사용하는 방법은 디스크->파티션->파일시스템이지만 LVM을 적용하면 볼륨단위로 저장장치를 관리할 수 있고 물리 디스크를 볼륨그룹으로 묶어 이를 다시 논리그룹으로 나누어 파일 시스템을 만든다.(디스크->파티션->볼륨그룹->논리그룹->파일시스템)
+   * ***물리적 공간인 `disk`를 논리적 공간의 최소단위인 `PE`로 나누고 분산된 `PE`들을 모아서 `LV`를 구성***
 ----
 ###  4. Linux Debian 배포판 구현
 
@@ -68,7 +69,7 @@ dpkg| apt<br>(Advanced Packaging Tool)| aptitude
    * `usermod -l <새로운계정><기존계정>
      - 로그인 아이디 변경
      - 홈, 디렉토리명도 함께 변경해주기 위하여 -d(사용자의 홈 디렉토리 변경), -m(홈 디렉토리 변경 시 기존에 사용하던 파일 및 디렉토리도 함께 변경) 옵션 함께 사용
-   * *`hostnamectl set-hostname <HOST_NAME>`*
+   * ***`hostnamectl set-hostname <HOST_NAME>`***
    * `usermode -aG <그룹명><사용자명>`
       - 해당 그룹에 유저를 추가
       - 그룹이 여러 개인 경우 공백없이 콤마(,)로 구분하면 됨
@@ -114,3 +115,10 @@ dpkg| apt<br>(Advanced Packaging Tool)| aptitude
       ```
 #### 4) partition 확인
   + `lsblk` partition 정보를 확인할 수 있다.
+
+### 5) SSH
+ + `systemctl status ssh`로 ssh 작동 여부 확인
+
+### ^) UWF
+ + 방화벽
+ + ufw status verbose
