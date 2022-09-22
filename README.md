@@ -231,7 +231,50 @@ hostname -I // ip 주소 확인용
     * `ufw status verbose`
     * `ufw enable`
     * `ufw allow <포트번호>`
-      
 
- 
- +
+### 7) crontab
+  + cron : 특정한 시간 또는 시간마다 어떤 작업을 자동으로 수행하게 하는 명령어
+  + crontab : cron 작업을 설정하는 파일 -> /etc/crontab 파일에 설정된 것을 읽어 작업을 수행한다.
+    * 참고
+
+      - /usr/sbin/anacron  : cron과 같이 동작하는 같이 동작하는 프로그램으로 서버가 일정시간 중지되었을 때에도 작업이 실행되는 것을 보장하기 위해 실행되는 도구
+      - /etc/cron.daily, /etc/cron.weekly, /etc/cron.monthly : 이름처럼 주기적으로 실행할 내용을 시스템 크론 설정 디렉토리에 넣어 작동
+      - /var/log/cron : 크론 실행내용 기록
+   + monitoring.sh
+     * #Architecture
+       - uname -a : 시스템 정보 출력
+     * #CPU physical
+       - nproc : print the number of processing units available (man 참고)
+     * #vCPU 
+       - vCPU는 가상 머신 또는 서버가 가상 머신에 대해 파티션되지 않은 경우 실제 프로세서 코어에 지정된 가상 코어
+       - /proc/cpuinfo : 이 때 나오는 processor의 number 0은 개수가 아닌 id임!!! 그래서 line 개수를 세는 것
+     * #Memory Usage
+       - free 메모리 사용량을 보여줌
+       - -m megabyte 단위로 보여줌
+       - grep Mem : swap 부분이랑 같이 보여지기 때문에 memory 부분만 끄집어 내고
+       - awk로 필요한 필드들 이용해서 솎아낸 값을 출력
+         + 이 때 %.2f는 double로 소수 2자리까지 출력하라는 말. printf의 보너스 옵션을 생각합시다.
+     * #Disk Usage
+       - df 명령을 사용하면 리눅스 시스템 전체의 (마운트 된) 디스크 사용량을 확인할 수 있습니다.
+       - 파일시스템, 디스크 크기, 사용량, 여유공간, 사용률, 마운트지점 순으로 나타납니다. [참고 - 빌노트](https://withcoding.com/104)
+       - df -BG G바이트 단위로 단위까지 표시
+     * #CPU load
+       - mpstat : Report processors related statistics.
+       - sysstat 패키지 설치하여 사용
+       - 마지막 idle이 사용가능 공간이므로 빼서 현재 load를 계산
+     * #Last boot 
+       - who 명령어와 -b(boot)의 조합
+     * #LVM use
+       - greater than
+       - [] 사이는 반드시 띄어쓰기
+       - then 을 사용하여 결과 행동
+       - ;을 사용하여 행동 추가
+       - fi로 종료
+     * #Connections TCP
+       - ss -tunpl
+     
+   
+ __________________________________
+
+ # BONUS PART
+ ## 1. 
