@@ -271,7 +271,10 @@ hostname -I // ip 주소 확인용
        - ;을 사용하여 행동 추가
        - fi로 종료
      * #Connections TCP
-       - ss -tunpl
+       - ss -tunplsudo 프로그램 실행된 명령 수
+       - usermod -aG systemd-journal <사용자이름> 명령어를 통해 journalctl 명령어를 사용할 준비
+       - journalctl을 사용하면 systemd-journald 데몬이 수집한 모든 로그 정보를 볼 수 있다.
+       - journalctl을 사용하여 특정 로그를 보고싶다면 _COMM=<특정> 옵션을 추가하면 된다.
      
    
  __________________________________
