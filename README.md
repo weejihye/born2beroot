@@ -98,6 +98,11 @@ DAC(임의적 접근 통제) | MAC(강제적 접근 통제)
         + 문자를 치면 자동으로 전신 부호로 번역되어 송신되고, 수신측에서는 반대로 수신된 전신부호가 문자로 번역되어 출력됨.
    * ~~vi 사용법 - 입력 -> `ctrl + x` -> y -> filename에서 tmp를 지우고 저장~~ 그냥 `apt install`로 vim을 설치하자... 
    * sudo 로그 확인 : `sudo ls /var/log/sudo/`
+   * 각 Defaults 뒤에 의미하는 바는 다음과 같다.
+     + env_reset: HOME, LOGNAME, PATH, SHELL, TERM, USER을 제외한 모든 환경 변수를 reset
+     + mail_badpass: 잘못된 패스워드로 sudo 실행 시, 지정된 메일로 보고
+     + secure_path: sudo 명령은 현재 계정의 쉘이 아닌 가상 쉘을 생성하고 그 안에서 실행된다. 이 때, 이 가상 쉘의 환경변수 PATH의 값을 secure_path 옵션을 통해 지정한다.
+
 
 #### 2) group 설정
  + `groupadd` : group을 추가함
@@ -148,11 +153,20 @@ DAC(임의적 접근 통제) | MAC(강제적 접근 통제)
      dcredit=-1 // digit 한개 이상 포함
      reject_username // username이 그대로 혹은 reversed 된 문자는 패스워드로 사용 불가
      enforce_for_root // root 계정도 위의 정책들 적용
+     
+     $ passwd -e [user_name] // 패스워드 강제 만료시키기
+     $ chage -m 2 -M 30 -W 7 [user_name] // 이전 계정에 새로 설정한 정책 적용하기 
+        > chage: 시스템 보안을 위해 사용자 패스워드의 만기일을 설정하너가 변경하는 명령어
+        > -m: 패스워드 변경 후 다시 변경할 수 있는 최소 날짜 설정 옵션
+        > -M: 패스워드가 유효한 최대 날짜 설정 옵션
+        > -W: 경고 메세지 기간 설정 옵션
+     $ sudo vi /etc/shadow // 계정들에 따른 패스워드 정책 상황 확인하기
+
       ```
 #### 4) partition 확인
   + `lsblk` partition 정보를 확인할 수 있다.
 
-### 5) SSH
+### 5) SSH (Secure Shell Protocol)
  + 원격 호스트에 접속하기 위해 사용되는 보안 프로토콜
  + 작동원리 : 클라이언트와 호스트가 각각 키를 보유하고 이를 활용하여 주고 받는 데이터를 암호화.
  + 방식
@@ -185,6 +199,14 @@ PC 수가 많거나 PC 자체 변동사항이 많은 경우 IP 설정이 자동�
 IP를 자동으로 할당하므로 IP 충돌을 막을 수 있음
 단점
 DHCP 서버에 의존되므로 서버가 다운되면 IP 할당이 제대로 이루어지지 않는다
+
+```
+sudo vim /etc/ssh/sshd_config // ssh config 파일 ssh demone 의 줄임말 demone은 기다리는 쪽(서버측)
+ip addr // netmask 확인용 8->255.0.0.0
+ip route // gateway 확인용
+hostname -I // ip 주소 확인용
+```
+
 
 ### 6) UWF (Uncomplicated Firewall)
  + 방화벽 : 미리 정의된 보안 규칙에 기반하여 들어오고 나가는 네트워크 트래픽을 모니터링하고 제어하는 네트워크 보안 시스템, 신뢰할 수 있는 내부 네트워크, 신뢰할 수 없는 외부 네트워크 간의 장벽을 구성
