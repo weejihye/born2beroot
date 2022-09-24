@@ -8,7 +8,7 @@
   * .deb : Debian 형식, Debian GNU/Linux, Ubuntu
   * 레포지터리 : 패키지 파일을 모아서 배포하는 사이트
 + 패키지 단위로 소프트웨어를 설치, 삭제
-+ 패키지 관리 시스템 CentOS-RPM, Debian-APT
++ 패키지 관리 시스템 CentOS-RPM, Debian-APT *(요즘에는 apt가 rpm패키지에도 적용가능하다고 함!)*
 
 dpkg| apt<br>(Advanced Packaging Tool)| aptitude
 ---|---|---
