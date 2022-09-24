@@ -1,0 +1,56 @@
+# 1. 프로젝트 개요
+  * 가상 머신은 어떻게 동작하는가
+  * 어떤 운영시스템을 선택했는가
+  * 가상머신의 목적 (가상머신을 쓰는 이유)
+  * Debian에서 aptitute와 apt 사이의 차이점
+  * Apparmor란?
+  
+# 2. 기본 설정
+  * 실행시 그래픽 환경이 아닌지 확인
+  * 비밀번호 요구 되는지 확인
+  * 연결 후에는 jwee로 접속
+  * 비밀번호가 과제에 주어진 규칙들을 따르고 있는지
+  * ufw 서비스가 시작되는지 ufw status verbose
+  * ssh 서비스가 시작되는지 systemctl status ssh
+  * 사용되는 os가 debian인지 
+
+# 3. 사용자
+  * jwee가 sudo와 user42 그룹에 속하는지
+  * 비밀번호 정책 확인을 위하여
+    - 새로운 유저 생성
+    - 틀린 비밀번호 한번 맞는 비밀번호 한번
+  * 규칙 만든 방법 설명 libpam, login.defs
+  * evaluating 그룹 생성 및 새로운 유저 추가
+  * 비밀번호 정책의 장점과 단점
+
+# 4. 호스트명과 파티션들
+  * 가상머신의 호스트명이 jwee42인지 : hostname
+  * jwee로 다시 로그인 후 호스트명 수정 - 그리고 리부트 hostnamectl set-hostname
+  * 호스트명 복원
+  * 가상머신의 파티션 lsblk
+  
+# 5. sudo
+  * sudo 프로그램 설치 확인 sudo -V
+  * 새로운 유저 sudo 할당
+  * visudo 보여주기
+  * var/log/sudo 폴더에 로그 쌓이는지
+    
+# 6. ufw
+  * ufw 프로그램 설치 확인 ufw version
+  * ufw 동작 확인 ufw status verbose
+  * ufw에 대한 설명과 좋은 점
+  * ufw의 활성된 규칙 나열. (4242랑 80만 있어야함.)
+  * 피평가자가 그 규칙을 삭제할 수 있도록 돕기 delete allow
+  
+# 7. SSH
+  * ssh 설치 및 동작 확인
+  * ssh가 무엇인지 설명하기
+  * ssh 서비스가 4242포트만 사용하는지
+  * ssh 사용 돕기
+  * root 유저로 사용 안되는 것 확인
+
+# 8. Script monitoring
+  * 스크립트 동작 코드 - 모니터링.sh
+  * cron이 무엇인지
+  * crontab 설명
+  * 1분마다로 변경
