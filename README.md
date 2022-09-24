@@ -246,24 +246,24 @@ gateway 위참고
       - /etc/cron.daily, /etc/cron.weekly, /etc/cron.monthly : 이름처럼 주기적으로 실행할 내용을 시스템 크론 설정 디렉토리에 넣어 작동
       - /var/log/cron : 크론 실행내용 기록
    + monitoring.sh
-     * #Architecture
+     * #Architecture : 운영체제 및 커널 버전의 아키텍처
        - uname -a : 시스템 정보 출력
-     * #CPU physical
+     * #CPU physical : 물리적 프로세서의 수
        - nproc : print the number of processing units available (man 참고)
-     * #vCPU 
+     * #vCPU : 가상 프로세서 개수(쓰레드)
        - vCPU는 가상 머신 또는 서버가 가상 머신에 대해 파티션되지 않은 경우 실제 프로세서 코어에 지정된 가상 코어
        - /proc/cpuinfo : 이 때 나오는 processor의 number 0은 개수가 아닌 id임!!! 그래서 line 개수를 세는 것
-     * #Memory Usage
+     * #Memory Usage (서버에서 현재 사용 가능한 ram 및 사용률)
        - free 메모리 사용량을 보여줌
        - -m megabyte 단위로 보여줌
        - grep Mem : swap 부분이랑 같이 보여지기 때문에 memory 부분만 끄집어 내고
        - awk로 필요한 필드들 이용해서 솎아낸 값을 출력
          + 이 때 %.2f는 double로 소수 2자리까지 출력하라는 말. printf의 보너스 옵션을 생각합시다.
-     * #Disk Usage
+     * #Disk Usage (서버에서 현재 사용 가능한 메모리 및 사용률)
        - df 명령을 사용하면 리눅스 시스템 전체의 (마운트 된) 디스크 사용량을 확인할 수 있습니다.
        - 파일시스템, 디스크 크기, 사용량, 여유공간, 사용률, 마운트지점 순으로 나타납니다. [참고 - 빌노트](https://withcoding.com/104)
        - df -BG G바이트 단위로 단위까지 표시
-     * #CPU load
+     * #CPU load (cpu 사용량)
        - mpstat : Report processors related statistics.
        - sysstat 패키지 설치하여 사용
        - 마지막 idle이 사용가능 공간이므로 빼서 현재 load를 계산
@@ -275,11 +275,12 @@ gateway 위참고
        - then 을 사용하여 결과 행동
        - ;을 사용하여 행동 추가
        - fi로 종료
-     * #Connections TCP
+     * #Connections TCP (네트워크 상태 확인)
        - ss -tunplsudo 프로그램 실행된 명령 수
        - usermod -aG systemd-journal <사용자이름> 명령어를 통해 journalctl 명령어를 사용할 준비
        - journalctl을 사용하면 systemd-journald 데몬이 수집한 모든 로그 정보를 볼 수 있다.
        - journalctl을 사용하여 특정 로그를 보고싶다면 _COMM=<특정> 옵션을 추가하면 된다.
+       [참고 Hans.log](https://velog.io/@tmdgks2222/42seoul-born2beroot-cron-monitoring.sh)
      
    
  __________________________________
@@ -287,6 +288,10 @@ gateway 위참고
  # BONUS PART
  웹서버, database 서버를 활용하여 wordpress 블로그를 구성하는 과제
  ## 1. 웹서버 : 웹브라우저와 같은 클라이언트로부터 HTTP 요청을 받아들이고, 이를 HTML 문서와 같은 정적 페이지로 처리해 반환하는 프로그램
+ lighttpd는 apachi보다 훨씬 적은 자원으로 빠른 속도를 지원한다.
+ 
  ## 2. CGI : 웹서버와 외부 프로그램을 연결해주는 표준화된 프로토콜
    1) 웹서버가 처리할 수 없는 정보가 요청되면 C, PHP, Python 등의 동적인 작업이 가능한 외부프로그램을 호출하고 반환되는 HTML을 브라우저로 전송하게 됨.
    2) fastCGI : 보통 CGI는 하나의 요청에 하나의 프로세스를 생성하여 작업하므로 많은 요청이 있으면 서버에 부하가 생기는데 fastcgi는 하나의 프로세스로 다중의 요청들을 처리하여 프로세스를 생성하고 제거하는 부하를 경감함.
+
+## 3. database : 관계형 데이터베이스 관리 시스템. mariadb 무료 사용 가능, MySQL 호환 가능. 가볍고 빠름. 설치, 유저 등록에 편함. 마리아 DB용 매니저 프로그램도 가볍고 사용하기 간편
