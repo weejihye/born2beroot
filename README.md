@@ -18,6 +18,7 @@ dpkg| apt<br>(Advanced Packaging Tool)| aptitude
 ### 2. AppArmor
   * 노벨에서 만든 보안 솔루션 == 리눅스 보안 모듈로 오픈소스.
   * `aa-enabled` 명령어를 통해 활성화 여부 확인 가능
+  * `aa-status`로 apparmor가 있는지 
   * 시스템 관리자가 프로그램 프로파일별로 프로그램의 역량을 제한할 수 있게 해주는 리눅스 커널 보안 모듈
   * 강제적 접근 통제 (Mandatory Access Control, MAC)을 제공함으로써 전통적인 유닉스 임의적 접근 통제(Discretionary Access Control, DAC) 모델을 지원
 
@@ -205,6 +206,10 @@ sudo vim /etc/ssh/sshd_config // ssh config 파일 ssh demone 의 줄임말 demo
 ip addr // netmask 확인용 8->255.0.0.0
 ip route // gateway 확인용
 hostname -I // ip 주소 확인용
+
+address 가상머신ip주소
+netmask 위참고
+gateway 위참고
 ```
 
 
@@ -280,4 +285,8 @@ hostname -I // ip 주소 확인용
  __________________________________
 
  # BONUS PART
- ## 1. 
+ 웹서버, database 서버를 활용하여 wordpress 블로그를 구성하는 과제
+ ## 1. 웹서버 : 웹브라우저와 같은 클라이언트로부터 HTTP 요청을 받아들이고, 이를 HTML 문서와 같은 정적 페이지로 처리해 반환하는 프로그램
+ ## 2. CGI : 웹서버와 외부 프로그램을 연결해주는 표준화된 프로토콜
+   1) 웹서버가 처리할 수 없는 정보가 요청되면 C, PHP, Python 등의 동적인 작업이 가능한 외부프로그램을 호출하고 반환되는 HTML을 브라우저로 전송하게 됨.
+   2) fastCGI : 보통 CGI는 하나의 요청에 하나의 프로세스를 생성하여 작업하므로 많은 요청이 있으면 서버에 부하가 생기는데 fastcgi는 하나의 프로세스로 다중의 요청들을 처리하여 프로세스를 생성하고 제거하는 부하를 경감함.
