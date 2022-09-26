@@ -239,6 +239,7 @@ gateway 위참고
 
 ### 7) crontab
   + cron : 특정한 시간 또는 시간마다 어떤 작업을 자동으로 수행하게 하는 명령어
+  + `service cron stop` `service cron start` `service cron restart`
   + crontab : cron 작업을 설정하는 파일 -> /etc/crontab 파일에 설정된 것을 읽어 작업을 수행한다.
     * 참고
 
