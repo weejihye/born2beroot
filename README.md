@@ -294,8 +294,11 @@ gateway 위참고
  ## 2. CGI : 웹서버와 외부 프로그램을 연결해주는 표준화된 프로토콜
    1) 웹서버가 처리할 수 없는 정보가 요청되면 C, PHP, Python 등의 동적인 작업이 가능한 외부프로그램을 호출하고 반환되는 HTML을 브라우저로 전송하게 됨.
    2) fastCGI : 보통 CGI는 하나의 요청에 하나의 프로세스를 생성하여 작업하므로 많은 요청이 있으면 서버에 부하가 생기는데 fastcgi는 하나의 프로세스로 다중의 요청들을 처리하여 프로세스를 생성하고 제거하는 부하를 경감함.
-   3) php : 대표적인 서버 사이드 스크립트 언어(person home page tools -> php:hypertext preprocessor) - http와 마찬가지로 상태를 유지 하지 않음.
+   3) php : 대표적인 서버 사이드 스크립트 언어(person home page tools -> php:hypertext preprocessor) - 동적 웹페이지를 구성하기 위하여 설계됨.
+     * php-fpm(php fastcgi process manager)를 통해 실행되는 트렌드!
+     * html의 처리에 강점 - url 파싱, 폼 처리, 정규 표현식 등
 
 ## 3. database : 관계형 데이터베이스 관리 시스템. 
   - mariadb : 무료 사용 가능, MySQL 호환 가능. 가볍고 빠름. 설치, 유저 등록에 편함. 마리아 DB용 매니저 프로그램도 가볍고 사용하기 간편
     * 다중 사용자, 이식성, 오픈소스, 빠른 데이터베이스 응용, 대규모 사용 가능, 20개 언어 장착
+  - mysql : 정보를 저장하는데 특화된 관계형 데이터베이스
